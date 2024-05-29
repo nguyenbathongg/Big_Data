@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <title>Kiểm định chất lượng nước</title>
+
+</head>
+<body>
+
+<div class="container">
+    <div class="logo-container">
+        <img src="https://geology.hus.vnu.edu.vn/wp-content/uploads/2020/03/Logo-HUS_Final-01.png" alt="Logo" class="logo">
+    </div>
+
+    <h1>Xin Chào! Cùng phân tích chất lượng nước nhé</h1>
+
+    <form id="classified-form" method="post" action="/">
+        <div class="input-container">
+            <input placeholder="pH" type="text" id="_ph" name="_ph" min="0" max="1000000" step="0.01" required><br>
+            <input placeholder="Hardness" type="text" id="_hardness" name="_hardness" min="0" max="1000000" step="0.01" required><br>
+            <input placeholder="Solids" type="text" id="_Solids" name="_Solids" min="0" max="100000" step="0.01" required><br>
+            <input placeholder="Chloramines" type="text" id="_Chloramines" name="_Chloramines" min="0" max="100000" step="0.01" required><br>
+            <input placeholder="Sulfate" type="text" id="_Sulfate" name="_Sulfate" min="0" max="100000" step="0.01" required><br>
+            <input placeholder="Conductivity" type="text" id="_Conductivity" name="_Conductivity" min="0" max="100000" step="0.01" required><br>
+            <input placeholder="Organic Carbon" type="text" id="_Organic_carbon" name="_Organic_carbon" min="0" max="100000" step="0.01" required><br>
+            <input placeholder="Trihalomethanes" type="text" id="_Trihalomethanes" name="_Trihalomethanes" min="0" max="100000" step="0.01" required><br>
+            <input placeholder="Turbidity" type="text" id="_Turbidity" name="_Turbidity" min="0" max="100000" step="0.01" required><br>
+        </div>
+
+        <button type="submit" class="button-56">Submit</button>
+    </form>
+
+    <p class="info">
+        <span>pH:</span> pH chỉ mức độ axit hoặc kiềm của nước, quan trọng đối với vị, kiểm soát ăn mòn và hiệu quả khử trùng. Nó được đo bằng các máy đo pH chính xác hoặc dải thử pH. <span>Tổ chức Y tế Thế giới (WHO) khuyến cáo pH của nước uống trong khoảng 6,5 đến 8,5</span>, đảm bảo nước dễ uống và giảm thiểu ăn mòn.
+        <br><br>
+        <span>Hardness:</span> Độ cứng của nước, chủ yếu từ ion canxi và magie, ảnh hưởng đến việc hình thành cặn và hiệu quả của xà phòng. Việc phát hiện sử dụng bộ dụng cụ thử nghiệm hoặc phương pháp chuẩn độ. <span>Mức độ chấp nhận thường từ 120–180 mg/L canxi cacbonat cho nước uống</span>.
+        <br><br>
+        <span>Total Solids:</span> Tổng chất rắn bao gồm các chất hòa tan và lơ lửng, ảnh hưởng đến độ trong và vị của nước. Phương pháp bay hơi sau đó cân dư lượng xác định tổng chất rắn. <span>Tiêu chuẩn nước uống thường quy định tổng chất rắn hòa tan (TDS) dưới 500 mg/L</span>.
+        <br><br>
+        <span>Chloramines:</span> Chloramines, chất khử trùng được hình thành từ clo và amoniac, đảm bảo an toàn vi khuẩn. Việc phát hiện sử dụng các bộ dụng cụ chuyên dụng với phản ứng màu. <span>Hướng dẫn nước uống khuyến nghị mức chloramine dưới 4,0 mg/L để ngăn chặn vấn đề về vị và tiềm ẩn nguy cơ sức khỏe</span>.
+        <br><br>
+        <span>Sulfate:</span> Mức sulfate, biểu thị ảnh hưởng địa chất hoặc nhân tạo, được xác định qua phương pháp sắc ký ion hoặc phân tích turbidimetric. <span>Tiêu chuẩn nước uống quy định nồng độ sulfate dưới 250 mg/L để ngăn chặn vị khó chịu và hiệu ứng nhuận tràng tiềm ẩn</span>.
+        <br><br>
+        <span>Conductivity:</span> Độ dẫn điện phản ánh nồng độ ion, là chỉ số chính của độ tinh khiết của nước. <span>Được đo bằng các máy đo chính xác, độ dẫn điện chấp nhận được cho nước uống thường từ 50 đến 1500 μS/cm</span>, đảm bảo ít chất rắn hòa tan và vị tốt nhất.
+        <br><br>
+        <span>Organic Carbon:</span> Carbon hữu cơ, từ các nguồn tự nhiên và nhân tạo, ảnh hưởng đến vị và thúc đẩy sự hình thành các sản phẩm phụ của khử trùng. <span>Tỷ lệ Carbon Hữu Cơ (TOC - Total Organic Carbon) trong nước uống an toàn thường là dưới 2 mg/L</span>.
+        <br><br>
+        <span>Trihalomethanes (THMs):</span> THMs, sản phẩm phụ của khử trùng được hình thành từ chất hữu cơ và clo, gây nguy cơ sức khỏe ở mức độ cao. Việc phát hiện sử dụng các kỹ thuật tinh vi như sắc ký khí. <span>Hướng dẫn nước uống thường giới hạn tổng THMs dưới 0,080 mg/L để giảm thiểu nguy cơ sức khỏe</span>.
+        <br><br>
+        <span>Turbidity:</span> Độ đục, gây ra bởi các hạt lơ lửng, ảnh hưởng đến thẩm mỹ và hiệu quả lọc. Các máy đo độ đục hoặc nephelometer đo độ đục. <span>Tiêu chuẩn nước uống yêu cầu độ đục dưới 1 NTU để đảm bảo độ trong và hiệu quả khử trùng</span>.
+    </p>
+</div>
+
+</body>
+</html>

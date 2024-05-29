@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kết quá dám định</title>
+
+    <style>
+        body {
+            background-color: bisque;
+            font-family: Arial, sans-serif;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            margin-top: 5%;
+            padding: 0 10%;
+        }
+
+        h1 {
+            color: brown;
+            text-align: center;
+            animation: moveText 2s infinite alternate;
+            margin-bottom: 50px;
+        }
+
+        h2 {
+            margin-bottom: 50px;
+            text-align: center;
+        }
+
+        @keyframes moveText {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(20px); /* Dịch chữ sang phải 20px */
+            }
+        }
+
+        p {
+            text-align: justify;
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 20px;
+        }
+
+        li b {
+            color: black;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 5%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Đây là nước sạch, bạn có thể sử dụng để uống 🤗</h1>
+
+    <h2>Hãy tham gia cuộc cách mạng xanh để phòng ngừa ô nhiễm nước nhé</h2>
+
+
+    <ul>
+        <h3>Nâng cao ý thức cộng đồng</h3>
+        <li>Tắm ngắn và không dùng nhiều nước cho các bồn tắm.</li>
+        <li>Tắt nước khi không sử dụng</li>
+        <li>...</li>
+    </ul>
+
+    <ul>
+        <h3>Xử lý phân thải đúng cách</h3>
+        <li>Phân hủy bã thức ăn của bạn thay vì sử dụng máy nghiền rác trong bồn rửa.</li>
+        <li>Nếu được, bạn nên xây dựng các hố ủ vệ sinh khoa học để đựng và ủ phân cho hoai trước khi đem bón cho
+            cây hoặc xả ra môi trường.
+        </li>
+        <li>...</li>
+
+    </ul>
+
+    <ul>
+        <h3>Hướng tới nông nghiệp xanh</h3>
+        <li>Lắp đặt hệ thống tưới nhỏ giọt cho các loại cây quý giá.</li>
+        <li>Sử dụng cây cỏ và cỏ chịu hạn và giảm diện tích phủ cỏ.</li>
+        <li>...</li>
+    </ul>
+
+</div>
+
+</body>
+</html>
