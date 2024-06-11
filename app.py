@@ -1,33 +1,54 @@
 import pandas as pd
 from flask import Flask, request, render_template
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import GridSearchCV
+from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
-# Load and preprocess data
-df = pd.read_csv("dataset/water_potability.csv")
-x = df.drop("Potability", axis=1)
-y = df.Potability
-scaler = StandardScaler()
-# x = pd.DataFrame(scaler.fit_transform(x), columns=x.columns)
-
-
-# Train your model
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=.2, shuffle=True, random_state=42)
-model_RFC = RandomForestClassifier(n_estimators=10)
-
-parameters = {
-    'n_estimators': [1000],
-    'criterion': ['log_loss'],  # Using entropy for classification
-    'max_features': ['sqrt'],
-    'n_jobs': [-1]
-}
-
-R_F_C_G_CV = GridSearchCV(estimator=model_RFC, param_grid=parameters, cv=20)
-model_RFC.fit(x_train, y_train)
 
 app = Flask(__name__)
+
+df = pd.read_csv('./dataset/water_potability.csv')
+
+df.drop_duplicates(inplace=True)
+df.dropna(how='all', inplace=True)
+
+idx1 = df.query('Potability == 1')['ph'][df.ph.isna()].index
+df.loc[idx1, 'ph'] = df.query('Potability == 1')['ph'][df.ph.notna()].mean()
+
+idx0 = df.query('Potability == 0')['ph'][df.ph.isna()].index
+df.loc[idx0, 'ph'] = df.query('Potability==0')['ph'][df.ph.notna()].mean()
+
+idx1 = df.query('Potability == 1')['Sulfate'][df.Sulfate.isna()].index
+df.loc[idx1, 'Sulfate'] = df.query('Potability == 1')['Sulfate'][df.Sulfate.notna()].mean()
+
+idx0 = df.query('Potability == 0')['Sulfate'][df.Sulfate.isna()].index
+df.loc[idx0, 'Sulfate'] = df.query('Potability==0')['Sulfate'][df.Sulfate.notna()].mean()
+
+idx1 = df.query('Potability == 1')['Trihalomethanes'][df.Trihalomethanes.isna()].index
+df.loc[idx1, 'Trihalomethanes'] = df.query('Potability == 1')['Trihalomethanes'][df.Trihalomethanes.notna()].mean()
+
+idx0 = df.query('Potability == 0')['Trihalomethanes'][df.Trihalomethanes.isna()].index
+df.loc[idx0, 'Trihalomethanes'] = df.query('Potability==0')['Trihalomethanes'][df.Trihalomethanes.notna()].mean()
+
+df.loc[~df.ph.between(6.5, 8.5), 'Potability'] = 0
+
+X = df.drop(['Potability'], axis=1).values
+y = df['Potability'].values
+
+# Chuẩn hóa dữ liệu
+sc = StandardScaler()
+X = sc.fit_transform(X)
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+
+rf = RandomForestClassifier(n_estimators=500, min_samples_leaf=10, random_state=42)
+rf.fit(X_train, y_train)
+
+
+# Huấn luyện mô hình Logistic Regression
+# log_reg = LogisticRegression(random_state=42, max_iter=1000)
+# log_reg.fit(X, y)
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -61,34 +82,31 @@ def font():
         Turbidity = float(Turbidity1)
         # Potability = request.form.get('_Potability')  # Added for missing field
 
-        user_input_features = [[ph,
-                                Hardness,
-                                Solids,
-                                Chloramines,
-                                Sulfate,
-                                Conductivity,
-                                Organic_carbon,
-                                Trihalomethanes,
-                                Turbidity]]
 
-        prediction = model_RFC.predict(user_input_features)
-
-        # Return prediction result
-        score_RFC_test = model_RFC.score(x_test, y_test)
-        message = score_RFC_test
-        # print(prediction)
-
-        # if prediction[0] == 0:
-        #     return render_template('bad.html', message=message)
-        # else:
+        # if (6 <= ph <= 9) and (120 <= Hardness <= 190) and (Solids <= 500) and (Chloramines <= 4) and (
+        #         Sulfate <= 250) and (50 <= Conductivity <= 1500) and (Organic_carbon <= 2) and (
+        #         Trihalomethanes <= 2) and (Turbidity <= 1):
         #     return render_template('good.html', message=message)
+        # else:
+        #     return render_template('bad.html', message=message)
 
-        if (6 <= ph <= 9) and (120 <= Hardness <= 190) and (Solids <= 500) and (Chloramines <= 4) and (
-                Sulfate <= 250) and (50 <= Conductivity <= 1500) and (Organic_carbon <= 2) and (
-                Trihalomethanes <= 2) and (Turbidity <= 1):
-            return render_template('good.html', message=message)
+        input_data = pd.DataFrame({'ph': [ph], 'Hardness': [Hardness], 'Solids': [Solids],
+                                   'Chloramines': [Chloramines], 'Sulfate': [Sulfate], 'Conductivity': [Conductivity],
+                                   'Organic_carbon': [Organic_carbon], 'Trihalomethanes': [Trihalomethanes],
+                                   'Turbidity': [Turbidity]})
+
+        # Scale the input data
+        input_data = sc.transform(input_data)
+        # Make a prediction
+        prediction = rf.predict(input_data)
+        rf_accuracy = accuracy_score(y_test, rf.predict(X_test))
+
+        # message = rf_accuracy
+
+        if prediction == 0:
+            return render_template('bad.html')
         else:
-            return render_template('bad.html', message=message)
+            return render_template('good.html')
 
     return render_template('home.html')
 
